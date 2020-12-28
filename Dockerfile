@@ -1,4 +1,4 @@
-FROM nextcloud:20.0.1-apache as builder
+FROM nextcloud:20.0.4-apache as builder
 
 # Build and install dlib on builder
 
@@ -48,7 +48,7 @@ RUN git clone https://github.com/matiasdelellis/pdlib-min-test-suite.git \
 # If pass the tests, we are able to create the final image.
 #
 
-FROM nextcloud:20.0.1-apache
+FROM nextcloud:20.0.4-apache
 
 # Install dependencies to image
 
@@ -86,7 +86,7 @@ RUN echo memory_limit=2048M > /usr/local/etc/php/conf.d/memory-limit.ini
 RUN apt-get update && \
     apt-get install -y wget unzip nodejs npm aria2 python3-pip
 RUN pip3 install youtube-dl
-ARG FR_BRANCH=v0.7.0
+ARG FR_BRANCH=v0.7.2
 RUN wget -c -q -O facerecognition https://github.com/matiasdelellis/facerecognition/archive/$FR_BRANCH.zip \
   && unzip facerecognition \
   && rm facerecognition \
