@@ -4,7 +4,7 @@ FROM nextcloud:20.0.4-apache as builder
 
 RUN apt-get update && \
     apt-get install -y build-essential wget cmake libx11-dev libopenblas-dev unzip && \
-    rm -rf /var/lib/apt/lists/*;
+    rm -rf /var/lib/apt/lists/*
 
 ARG DLIB_BRANCH=v19.21
 RUN wget -c -q https://github.com/davisking/dlib/archive/$DLIB_BRANCH.tar.gz \
@@ -39,7 +39,7 @@ RUN echo "extension=pdlib.so" > /usr/local/etc/php/conf.d/pdlib.ini
 
 RUN apt-get update && \
     apt-get install -y git && \
-    rm -rf /var/lib/apt/lists/*;
+    rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/matiasdelellis/pdlib-min-test-suite.git \
     && cd pdlib-min-test-suite \
     && make
@@ -74,26 +74,35 @@ RUN echo memory_limit=2048M > /usr/local/etc/php/conf.d/memory-limit.ini
 # Pdlib is already installed, now without all build dependencies.
 # You could test again if everything is correct, uncommenting the next lines
 #
-# RUN apt-get install -y git wget
-# RUN git clone https://github.com/matiasdelellis/pdlib-min-test-suite.git \
-#    && cd pdlib-min-test-suite \
-#    && make
+RUN apt-get install -y git wget
+RUN git clone https://github.com/matiasdelellis/pdlib-min-test-suite.git \
+    && cd pdlib-min-test-suite \
+    && make
 
 #
 # At this point you meet all the dependencies to install the application
 # If is available you can skip this step and install the application from the application store
-#
+
+
+RUN apt-get update && apt-get install -y libbz2-dev && \
+    docker-php-ext-install bz2 && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN apt-get update && \
-    apt-get install -y wget unzip nodejs npm aria2 python3-pip
+    apt-get install -y wget unzip nodejs npm aria2 python3-pip && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN pip3 install youtube-dl
+
 ARG FR_BRANCH=v0.7.2
 RUN wget -c -q -O facerecognition https://github.com/matiasdelellis/facerecognition/archive/$FR_BRANCH.zip \
-  && unzip facerecognition \
-  && rm facerecognition \
-  && mv facerecognition-*  /usr/src/nextcloud/facerecognition \
-  && cd /usr/src/nextcloud/facerecognition \
-  && make
+    && unzip facerecognition \
+    && rm facerecognition \
+    && mv facerecognition-*  /usr/src/nextcloud/facerecognition \
+    && cd /usr/src/nextcloud/facerecognition \
+    && make
+
 RUN wget -c -q -O ocdownloader https://github.com/Lohn/ocdownloader/archive/master.zip \
-  && unzip ocdownloader \
-  && rm ocdownloader \
-  && mv ocdownloader*  /usr/src/nextcloud/ocdownloader
+    && unzip ocdownloader \
+    && rm ocdownloader \
+    && mv ocdownloader*  /usr/src/nextcloud/ocdownloader
