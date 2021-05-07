@@ -1,4 +1,4 @@
-FROM nextcloud:21.0.0-fpm as builder
+FROM nextcloud:21.0.1-fpm as builder
 
 # Build and install dlib on builder
 
