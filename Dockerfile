@@ -6,7 +6,7 @@ RUN apt-get update && \
     apt-get install -y build-essential wget cmake libx11-dev libopenblas-dev unzip && \
     rm -rf /var/lib/apt/lists/*
 
-ARG DLIB_BRANCH=v19.21
+ARG DLIB_BRANCH=v19.22
 RUN wget -c -q https://github.com/davisking/dlib/archive/$DLIB_BRANCH.tar.gz \
     && tar xf $DLIB_BRANCH.tar.gz \
     && mv dlib-* dlib \
@@ -48,7 +48,7 @@ RUN git clone https://github.com/matiasdelellis/pdlib-min-test-suite.git \
 # If pass the tests, we are able to create the final image.
 #
 
-FROM nextcloud:21.0.0-fpm
+FROM nextcloud:21.0.1-fpm
 
 # Install dependencies to image
 
@@ -94,7 +94,7 @@ RUN apt-get update && \
 
 RUN pip3 install youtube-dl
 
-ARG FR_BRANCH=v0.7.2
+ARG FR_BRANCH=v0.8.1
 RUN wget -c -q -O facerecognition https://github.com/matiasdelellis/facerecognition/archive/$FR_BRANCH.zip \
     && unzip facerecognition \
     && rm facerecognition \
