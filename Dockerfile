@@ -94,7 +94,7 @@ RUN apt-get update && \
 
 RUN pip3 install youtube-dl
 
-ARG FR_BRANCH=v0.8.1
+ARG FR_BRANCH=v0.8.2
 RUN wget -c -q -O facerecognition https://github.com/matiasdelellis/facerecognition/archive/$FR_BRANCH.zip \
     && unzip facerecognition \
     && rm facerecognition \
