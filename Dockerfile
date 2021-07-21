@@ -1,4 +1,4 @@
-FROM nextcloud:21.0.2-fpm as builder
+FROM nextcloud:22.0.0-fpm as builder
 
 # Build and install dlib on builder
 
@@ -48,7 +48,7 @@ RUN git clone https://github.com/matiasdelellis/pdlib-min-test-suite.git \
 # If pass the tests, we are able to create the final image.
 #
 
-FROM nextcloud:21.0.2-fpm
+FROM nextcloud:22.0.0-fpm
 
 # Install dependencies to image
 
@@ -94,16 +94,16 @@ RUN apt-get update && \
 
 RUN pip3 install youtube-dl
 
-ARG FR_BRANCH=v0.8.2
-RUN wget -c -q -O facerecognition https://github.com/matiasdelellis/facerecognition/archive/$FR_BRANCH.zip \
-    && unzip facerecognition \
-    && rm facerecognition \
-    && mv facerecognition-*  /usr/src/nextcloud/facerecognition \
-    && cd /usr/src/nextcloud/facerecognition \
-    && make
+#ARG FR_BRANCH=v0.8.2
+#RUN wget -c -q -O facerecognition https://github.com/matiasdelellis/facerecognition/archive/$FR_BRANCH.zip \
+#    && unzip facerecognition \
+#    && rm facerecognition \
+#    && mv facerecognition-*  /usr/src/nextcloud/facerecognition \
+#    && cd /usr/src/nextcloud/facerecognition \
+#    && make
 
-ARG OC_BRANCH=1.7.11
-RUN wget -c -q -O ocdownloader https://github.com/e-alfred/ocdownloader/archive/master.zip \
-    && unzip ocdownloader \
-    && rm ocdownloader \
-    && mv ocdownloader*  /usr/src/nextcloud/ocdownloader
+#ARG OC_BRANCH=1.7.11
+#RUN wget -c -q -O ocdownloader https://github.com/e-alfred/ocdownloader/archive/master.zip \
+#    && unzip ocdownloader \
+#    && rm ocdownloader \
+#    && mv ocdownloader*  /usr/src/nextcloud/ocdownloader
